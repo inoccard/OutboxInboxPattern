@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace OutboxInboxPattern.Controllers;
+namespace Outbox.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]

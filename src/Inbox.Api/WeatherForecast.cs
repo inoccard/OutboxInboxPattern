@@ -1,4 +1,4 @@
-namespace OutboxInboxPattern;
+namespace Inbox.Api;
 
 public class WeatherForecast
 {

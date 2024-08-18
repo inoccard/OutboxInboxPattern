@@ -5,11 +5,13 @@ VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aspire", "Aspire", "{431C8525-DAA0-4FBF-98BA-E14C0CC502DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outbox.Api", "src\OutboxInboxPattern\Outbox.Api.csproj", "{47C00A94-F322-46A1-AB8A-FDC478277758}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutboxInboxPattern.AppHost", "src\OutboxInboxPattern.AppHost\OutboxInboxPattern.AppHost.csproj", "{71B14E6A-9F32-4A72-826A-F6A109A143C6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutboxInboxPattern.ServiceDefaults", "src\OutboxInboxPattern.ServiceDefaults\OutboxInboxPattern.ServiceDefaults.csproj", "{A59B1BF8-F6B5-4FDC-84B8-E1A47A3F7DA4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inbox.Api", "src\Inbox.Api\Inbox.Api.csproj", "{AA0243F7-F455-4542-BEA2-94B541931BA1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outbox.Api", "src\Outbox.Api\Outbox.Api.csproj", "{93D80F42-64A4-4579-9764-9C9E8C4AD873}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{47C00A94-F322-46A1-AB8A-FDC478277758}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{47C00A94-F322-46A1-AB8A-FDC478277758}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{47C00A94-F322-46A1-AB8A-FDC478277758}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{47C00A94-F322-46A1-AB8A-FDC478277758}.Release|Any CPU.Build.0 = Release|Any CPU
 		{71B14E6A-9F32-4A72-826A-F6A109A143C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{71B14E6A-9F32-4A72-826A-F6A109A143C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71B14E6A-9F32-4A72-826A-F6A109A143C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -29,6 +27,14 @@ Global
 		{A59B1BF8-F6B5-4FDC-84B8-E1A47A3F7DA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A59B1BF8-F6B5-4FDC-84B8-E1A47A3F7DA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A59B1BF8-F6B5-4FDC-84B8-E1A47A3F7DA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA0243F7-F455-4542-BEA2-94B541931BA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA0243F7-F455-4542-BEA2-94B541931BA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA0243F7-F455-4542-BEA2-94B541931BA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA0243F7-F455-4542-BEA2-94B541931BA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93D80F42-64A4-4579-9764-9C9E8C4AD873}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93D80F42-64A4-4579-9764-9C9E8C4AD873}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93D80F42-64A4-4579-9764-9C9E8C4AD873}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93D80F42-64A4-4579-9764-9C9E8C4AD873}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

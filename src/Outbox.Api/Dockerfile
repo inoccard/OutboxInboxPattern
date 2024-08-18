@@ -12,19 +12,19 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["OutboxInboxPattern/OutboxInboxPattern.csproj", "OutboxInboxPattern/"]
-RUN dotnet restore "./OutboxInboxPattern/OutboxInboxPattern.csproj"
+COPY ["Outbox.Api/Outbox.Api.csproj", "Outbox.Api/"]
+RUN dotnet restore "./Outbox.Api/Outbox.Api.csproj"
 COPY . .
-WORKDIR "/src/OutboxInboxPattern"
-RUN dotnet build "./OutboxInboxPattern.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Outbox.Api"
+RUN dotnet build "./Outbox.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./OutboxInboxPattern.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Outbox.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "OutboxInboxPattern.dll"]
+ENTRYPOINT ["dotnet", "Outbox.Api.dll"]
