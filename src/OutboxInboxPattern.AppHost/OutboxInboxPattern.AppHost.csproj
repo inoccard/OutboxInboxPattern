@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OutboxInboxPattern\OutboxInboxPattern.csproj" />
+    <ProjectReference Include="..\OutboxInboxPattern\Outbox.Api.csproj" />
   </ItemGroup>
 
 </Project>
