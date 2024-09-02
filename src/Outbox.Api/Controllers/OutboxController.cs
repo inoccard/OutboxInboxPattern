@@ -20,7 +20,7 @@ public class OutboxController : ControllerBase
         _repository = repository;
     }
 
-    [HttpPost()]
+    [HttpPost("create")]
     public async Task<IActionResult> SaveAsync(PersonDto personDto)
     {
         try
@@ -31,15 +31,15 @@ public class OutboxController : ControllerBase
 
             if (!saved) return BadRequest();
 
-            return Ok(person.Id);
+            return Ok($"Pessoa cadastrada com sucesso. Id: {person.Id}");
         }
         catch (Exception ex)
         {
-            throw ex;
+            return BadRequest($"{ex.Message} {ex.InnerException.Message}");
         }
     }
 
-    [HttpPut()]
+    [HttpPut("update")]
     public async Task<IActionResult> UpdateAsync(Person person)
     {
         try
@@ -54,11 +54,11 @@ public class OutboxController : ControllerBase
 
             if (!saved) return BadRequest();
 
-            return Ok();
+            return Ok($"Pessoa cadastrada com sucesso. Id: {person.Id}");
         }
         catch (Exception ex)
         {
-            throw ex;
+            return BadRequest(ex.Message);
         }
     }
 
@@ -76,7 +76,7 @@ public class OutboxController : ControllerBase
         }
         catch (Exception ex)
         {
-            throw ex;
+            return BadRequest(ex.Message);
         }
     }
 }

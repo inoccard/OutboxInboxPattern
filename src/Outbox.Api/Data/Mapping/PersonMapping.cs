@@ -16,6 +16,8 @@ public class PersonMapping : IEntityTypeConfiguration<Person>
             .IsRequired(true);
         builder.Property(p => p.Document)
             .IsRequired(true);
+        builder.HasIndex(p => p.Document)
+            .IsUnique();
         builder.Property(p => p.DocumentType)
             .IsRequired(true);
     }

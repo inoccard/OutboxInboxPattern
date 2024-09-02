@@ -1,4 +1,6 @@
 using Outbox.Api.Configs.Databases;
+using Outbox.Api.Data;
+using Outbox.Api.Domain.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDatabaseConfig(builder.Configuration);
+builder.Services.AddScoped<IRepository, DataContext>();
 
 var app = builder.Build();
 
