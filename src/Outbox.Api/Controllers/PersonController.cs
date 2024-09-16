@@ -40,7 +40,8 @@ public class PersonController : ControllerBase
             var saved = await _repository.CommitAsync();
 
             // Salva o evento logo após salvar os dados
-            await _outboxEventService.SaveEvent(person);
+            var @event = new PersonCreatedNotification(person.Id, person.Name, person.Document, person.DocumentType);
+            await _outboxEventService.SaveEvent(@event);
 
             await SendPersonCreated(person);
 

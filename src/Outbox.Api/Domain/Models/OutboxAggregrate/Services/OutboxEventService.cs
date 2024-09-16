@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Outbox.Api.Domain.Models.OutboxAggregrate.Entities;
 using Outbox.Api.Domain.Models.PersonAggregate.Entities;
 using Outbox.Api.Domain.Repository;
@@ -19,37 +20,20 @@ public class OutboxEventService(IRepository repository)
         await repository.CommitAsync();
     }
 
-    public IEnumerable<object?> GetPendingEvents()
+    public async Task<OutboxEvent[]> GetPendingEvents()
     {
-        var events = repository.QueryIncludeStringProperties<OutboxEvent>()
+        var events = await repository.Query<OutboxEvent>()
             .Where(o => o.Status == 1 && o.Attempts < 3)
-            .ToArray();
+            .ToArrayAsync();
 
-        var result = new List<object>();
-
-        foreach (var @event in events)
-        {
-            if (!SetEventTypeName().TryGetValue(@event.Type, out var eventType)) continue;
-
-            var data = JsonConvert.DeserializeObject(@event.Payload, eventType);
-            if (data != null) result.Add(data);
-        }
-
-        return result;
+        return events;
     }
     
     public IEnumerable<object?> GetEvents()
     {
         var events = repository.QueryIncludeStringProperties<OutboxEvent>()
-            .Where(o => o.Status == 1 && o.Attempts < 3)
             .ToArray();
 
         return events;
     }
-
-    private static Dictionary<string, Type> SetEventTypeName() =>
-        new()
-        {
-            { "Person", typeof(Person) }
-        };
 }

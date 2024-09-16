@@ -3,6 +3,7 @@ using Outbox.Api.Configs;
 using Outbox.Api.Configs.Databases;
 using Outbox.Api.Data;
 using Outbox.Api.Domain.Repository;
+using Outbox.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,18 +19,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDatabaseConfig(builder.Configuration);
 builder.Services.AddServices(builder.Configuration);
 builder.Services.ConfigureMessageQueue(builder.Configuration);
+builder.Services.AddHostedService<OutboxPublisherService>();
 
 var app = builder.Build();
 
-app.MapDefaultEndpoints();
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
 app.MapControllers();
-
+app.UseApp();
+    
 await app.RunAsync();
