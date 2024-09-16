@@ -4,13 +4,6 @@ using Newtonsoft.Json;
 
 namespace Domain.Models.OutboxAggregrate.Services;
 
-public interface IOutboxEventService
-{
-    public Task SaveEvent<T>(T eventData);
-    public OutboxEvent[] GetPendingEvents();
-    public OutboxEvent[] GetEvents();
-}
-
 public class OutboxEventService(IRepository repository) : IOutboxEventService
 {
     public async Task SaveEvent<T>(T eventData)

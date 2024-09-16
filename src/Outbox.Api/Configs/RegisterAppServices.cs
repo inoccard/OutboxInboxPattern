@@ -23,8 +23,7 @@ public static class RegisterAppServices
 
         services.AddMediator()
             .AddScoped<IRepository, DataContext>()
-            .AddScoped<IOutboxEventService, OutboxEventService>()
-            .AddScoped<IMediatorHandler, MediatorHandler>();
+            .AddScoped<IOutboxEventService, OutboxEventService>();
     }
 
     public static IApplicationBuilder UseApp(this IApplicationBuilder app)

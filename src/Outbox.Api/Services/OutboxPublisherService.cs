@@ -1,4 +1,5 @@
-﻿using Domain.Models.PersonAggregate.Notifications;
+﻿using Domain.Models.OutboxAggregate.Notifications;
+using Domain.Models.PersonAggregate.Notifications;
 using MediatR;
 
 namespace Outbox.Api.Services;
@@ -12,7 +13,7 @@ public class OutboxPublisherService(IServiceProvider serviceProvider) : Backgrou
             using (var scope = serviceProvider.CreateAsyncScope())
             {
                 var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-                mediator.Publish(new PersonJobNotification());
+                mediator.Publish(new OutboxJobNotification());
             }
 
             await Task.Delay(20000, stoppingToken); // Intervalo entre tentativas de processamento

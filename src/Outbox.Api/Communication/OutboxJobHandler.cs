@@ -1,4 +1,5 @@
-﻿using Domain.Models.OutboxAggregrate.Services;
+﻿using Domain.Models.OutboxAggregate.Notifications;
+using Domain.Models.OutboxAggregrate.Services;
 using Domain.Models.PersonAggregate.Notifications;
 using Domain.Repository;
 using MediatR;
@@ -6,13 +7,13 @@ using Newtonsoft.Json;
 
 namespace Outbox.Api.Communication;
 
-public class PersonJobHandler(
+public class OutboxJobHandler(
     IOutboxEventService outboxEventService,
     IRepository repository,
-    IMediator mediator
-) : INotificationHandler<PersonJobNotification>
+    IMediator mediator,
+    ILogger<OutboxJobHandler> logger) : INotificationHandler<OutboxJobNotification>
 {
-    public async Task Handle(PersonJobNotification notification, CancellationToken cancellationToken)
+    public async Task Handle(OutboxJobNotification notification, CancellationToken cancellationToken)
     {
         var events = outboxEventService.GetPendingEvents();
 
@@ -30,10 +31,13 @@ public class PersonJobHandler(
 
                 await repository.CommitAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Manter Published como false para tentar novamente depois
-                // Logar o erro ou tratar como necessário
+                var message = $"{ex.Message} {ex.InnerException?.Message}";
+                logger.LogError(message);
+                @pendingEvent.UpdateError(message);
+                pendingEvent.UpdateAttaments();
+                await repository.CommitAsync();
             }
     }
 
