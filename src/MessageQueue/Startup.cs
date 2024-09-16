@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using MassTransit;
+using MessageQueue.Inbox.Consumers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -16,10 +17,12 @@ public static class Startup
         services.AddMassTransit(x =>
         {
             x.SetKebabCaseEndpointNameFormatter();
-
+            
+            QueueSettings queueSettings = null;
+            
             x.UsingRabbitMq((context, cfg) =>
             {
-                var queueSettings = context.GetRequiredService<IOptions<QueueSettings>>().Value;
+                queueSettings = context.GetRequiredService<IOptions<QueueSettings>>().Value;
 
                 var host = new Uri($"{queueSettings.Address}:{queueSettings.Port}/{queueSettings.VirtualHost}");
 
@@ -30,9 +33,11 @@ public static class Startup
                 });
 
                 cfg.ConfigureEndpoints(context);
-            });
 
-            // x.AddConsumersFromNamespaceContaining<ColporteurQuantityReportByCategoryConsumer>();
+            });
+            
+            x.AddConsumer<PersonCreatedConsumer>(p =>
+                p.UseMessageRetry(u => u.Interval(queueSettings.RetryCount, queueSettings.RetryInterval)));
         });
     }
 }
