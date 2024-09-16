@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Outbox.Api.Domain.Repository;
+namespace Domain.Repository;
 
 public interface IRepository
 {
@@ -30,5 +30,4 @@ public interface IRepository
     void CommitTransaction();
 
     #endregion
-
 }

@@ -1,9 +1,8 @@
 ﻿using Core.Communication;
-using Core.Contracts;
-using MessageQueue;
+using Domain.Contracts;
+using Domain.Models.OutboxAggregrate.Services;
+using Domain.Repository;
 using Outbox.Api.Data;
-using Outbox.Api.Domain.Models.OutboxAggregrate.Services;
-using Outbox.Api.Domain.Repository;
 
 namespace Outbox.Api.Configs;
 
@@ -21,13 +20,13 @@ public static class RegisterAppServices
                         .AllowAnyHeader();
                 });
         });
-        
+
         services.AddMediator()
             .AddScoped<IRepository, DataContext>()
-            .AddScoped<OutboxEventService>()
+            .AddScoped<IOutboxEventService, OutboxEventService>()
             .AddScoped<IMediatorHandler, MediatorHandler>();
     }
-    
+
     public static IApplicationBuilder UseApp(this IApplicationBuilder app)
     {
         // Habilitando CORS
@@ -39,7 +38,7 @@ public static class RegisterAppServices
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
-        
+
         return app;
     }
 }

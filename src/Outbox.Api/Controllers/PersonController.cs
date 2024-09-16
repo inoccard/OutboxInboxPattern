@@ -1,11 +1,11 @@
+using Domain.Models.OutboxAggregrate.Services;
+using Domain.Models.PersonAggregate.Dtos;
+using Domain.Models.PersonAggregate.Entities;
+using Domain.Models.PersonAggregate.Notifications;
+using Domain.Repository;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Outbox.Api.Domain.Models.OutboxAggregrate.Services;
-using Outbox.Api.Domain.Models.PersonAggregate.Dtos;
-using Outbox.Api.Domain.Models.PersonAggregate.Entities;
-using Outbox.Api.Domain.Models.PersonAggregate.Notifications;
-using Outbox.Api.Domain.Repository;
 
 namespace Outbox.Api.Controllers;
 
@@ -14,14 +14,14 @@ namespace Outbox.Api.Controllers;
 public class PersonController : ControllerBase
 {
     private readonly ILogger<PersonController> _logger;
-    private readonly OutboxEventService _outboxEventService;
     private readonly IMediator _mediator;
+    private readonly IOutboxEventService _outboxEventService;
     private readonly IRepository _repository;
 
     public PersonController(
         IRepository repository,
         ILogger<PersonController> logger,
-        OutboxEventService outboxEventService,
+        IOutboxEventService outboxEventService,
         IMediator mediator)
     {
         _logger = logger;

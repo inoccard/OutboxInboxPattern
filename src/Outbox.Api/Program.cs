@@ -1,8 +1,6 @@
 using MessageQueue;
 using Outbox.Api.Configs;
 using Outbox.Api.Configs.Databases;
-using Outbox.Api.Data;
-using Outbox.Api.Domain.Repository;
 using Outbox.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,5 +23,5 @@ var app = builder.Build();
 
 app.MapControllers();
 app.UseApp();
-    
+
 await app.RunAsync();

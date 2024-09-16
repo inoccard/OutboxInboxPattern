@@ -1,9 +1,5 @@
-﻿using MediatR;
-using Newtonsoft.Json;
-using Outbox.Api.Domain.Models.OutboxAggregrate.Services;
-using Outbox.Api.Domain.Models.PersonAggregate.Entities;
-using Outbox.Api.Domain.Models.PersonAggregate.Notifications;
-using Outbox.Api.Domain.Repository;
+﻿using Domain.Models.PersonAggregate.Notifications;
+using MediatR;
 
 namespace Outbox.Api.Services;
 
@@ -21,6 +17,5 @@ public class OutboxPublisherService(IServiceProvider serviceProvider) : Backgrou
 
             await Task.Delay(20000, stoppingToken); // Intervalo entre tentativas de processamento
         }
-
     }
 }

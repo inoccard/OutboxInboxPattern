@@ -1,12 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Models.OutboxAggregrate.Entities;
+using Domain.Repository;
 using Newtonsoft.Json;
-using Outbox.Api.Domain.Models.OutboxAggregrate.Entities;
-using Outbox.Api.Domain.Models.PersonAggregate.Entities;
-using Outbox.Api.Domain.Repository;
 
-namespace Outbox.Api.Domain.Models.OutboxAggregrate.Services;
+namespace Domain.Models.OutboxAggregrate.Services;
 
-public class OutboxEventService(IRepository repository)
+public interface IOutboxEventService
+{
+    public Task SaveEvent<T>(T eventData);
+    public OutboxEvent[] GetPendingEvents();
+    public OutboxEvent[] GetEvents();
+}
+
+public class OutboxEventService(IRepository repository) : IOutboxEventService
 {
     public async Task SaveEvent<T>(T eventData)
     {
@@ -20,16 +25,16 @@ public class OutboxEventService(IRepository repository)
         await repository.CommitAsync();
     }
 
-    public async Task<OutboxEvent[]> GetPendingEvents()
+    public OutboxEvent[] GetPendingEvents()
     {
-        var events = await repository.Query<OutboxEvent>()
+        var events = repository.Query<OutboxEvent>()
             .Where(o => o.Status == 1 && o.Attempts < 3)
-            .ToArrayAsync();
+            .ToArray();
 
         return events;
     }
-    
-    public IEnumerable<object?> GetEvents()
+
+    public OutboxEvent[] GetEvents()
     {
         var events = repository.QueryIncludeStringProperties<OutboxEvent>()
             .ToArray();

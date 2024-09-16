@@ -1,24 +1,22 @@
-﻿using MediatR;
+﻿using Domain.Models.OutboxAggregrate.Services;
+using Domain.Models.PersonAggregate.Notifications;
+using Domain.Repository;
+using MediatR;
 using Newtonsoft.Json;
-using Outbox.Api.Domain.Models.OutboxAggregrate.Services;
-using Outbox.Api.Domain.Models.PersonAggregate.Entities;
-using Outbox.Api.Domain.Models.PersonAggregate.Notifications;
-using Outbox.Api.Domain.Repository;
 
 namespace Outbox.Api.Communication;
 
 public class PersonJobHandler(
-    OutboxEventService outboxEventService,
+    IOutboxEventService outboxEventService,
     IRepository repository,
     IMediator mediator
 ) : INotificationHandler<PersonJobNotification>
 {
     public async Task Handle(PersonJobNotification notification, CancellationToken cancellationToken)
     {
-        var events = await outboxEventService.GetPendingEvents();
+        var events = outboxEventService.GetPendingEvents();
 
         foreach (var pendingEvent in events)
-        {
             try
             {
                 if (!SetEventTypeName().TryGetValue(pendingEvent.Type, out var eventType)) continue;
@@ -37,12 +35,13 @@ public class PersonJobHandler(
                 // Manter Published como false para tentar novamente depois
                 // Logar o erro ou tratar como necessário
             }
-        }
     }
-    
-    private static Dictionary<string, Type> SetEventTypeName() =>
-        new()
+
+    private static Dictionary<string, Type> SetEventTypeName()
+    {
+        return new Dictionary<string, Type>
         {
             { "PersonCreatedNotification", typeof(PersonCreatedNotification) }
         };
+    }
 }

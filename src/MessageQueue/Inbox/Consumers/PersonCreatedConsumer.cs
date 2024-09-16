@@ -7,6 +7,6 @@ public class PersonCreatedConsumer : IConsumer<IPersonCreated>
 {
     public async Task Consume(ConsumeContext<IPersonCreated> context)
     {
-        await Task.CompletedTask;
+        await Task.FromResult(context.Message);
     }
 }

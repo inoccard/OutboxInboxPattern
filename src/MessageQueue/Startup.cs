@@ -17,9 +17,9 @@ public static class Startup
         services.AddMassTransit(x =>
         {
             x.SetKebabCaseEndpointNameFormatter();
-            
+
             QueueSettings queueSettings = null;
-            
+
             x.UsingRabbitMq((context, cfg) =>
             {
                 queueSettings = context.GetRequiredService<IOptions<QueueSettings>>().Value;
@@ -33,9 +33,8 @@ public static class Startup
                 });
 
                 cfg.ConfigureEndpoints(context);
-
             });
-            
+
             x.AddConsumer<PersonCreatedConsumer>(p =>
                 p.UseMessageRetry(u => u.Interval(queueSettings.RetryCount, queueSettings.RetryInterval)));
         });

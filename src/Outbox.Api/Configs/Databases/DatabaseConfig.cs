@@ -1,6 +1,5 @@
-﻿using Outbox.Api.Data;
-using Outbox.Api.Domain.Repository;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Outbox.Api.Data;
 
 namespace Outbox.Api.Configs.Databases;
 

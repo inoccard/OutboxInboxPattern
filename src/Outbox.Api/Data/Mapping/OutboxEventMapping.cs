@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Models.OutboxAggregrate.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Outbox.Api.Domain.Models.OutboxAggregrate.Entities;
 
 namespace Outbox.Api.Data.Mapping;
 

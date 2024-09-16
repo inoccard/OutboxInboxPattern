@@ -1,4 +1,4 @@
-namespace Core.Contracts;
+namespace Domain.Contracts;
 
 public interface IMediatorHandler
 {

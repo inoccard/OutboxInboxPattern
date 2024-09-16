@@ -1,11 +1,11 @@
-﻿using MassTransit;
+﻿using Domain.Models.PersonAggregate.Notifications;
+using MassTransit;
 using MediatR;
 using MessageQueue.Messages;
-using Outbox.Api.Domain.Models.PersonAggregate.Notifications;
 
 namespace Outbox.Api.Communication;
 
-public class PersonHandler(IBusControl busControl, ILogger<PersonHandler> logger) : 
+public class PersonHandler(IBusControl busControl, ILogger<PersonHandler> logger) :
     INotificationHandler<PersonCreatedNotification>
 {
     public async Task Handle(PersonCreatedNotification notification, CancellationToken cancellationToken)
@@ -14,10 +14,10 @@ public class PersonHandler(IBusControl busControl, ILogger<PersonHandler> logger
         {
             await busControl.Publish<IPersonCreated>(new
             {
-                Id = notification.Id,
-                Name = notification.Name,
-                Document = notification.Document,
-                DocumentType = notification.DocumentType
+                notification.Id,
+                notification.Name,
+                notification.Document,
+                notification.DocumentType
             });
         }
         catch (Exception ex)

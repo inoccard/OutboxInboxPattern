@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Models.PersonAggregate.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Outbox.Api.Domain.Models.PersonAggregate.Entities;
 
 namespace Outbox.Api.Data.Mapping;
 
@@ -13,12 +13,12 @@ public class PersonMapping : IEntityTypeConfiguration<Person>
         builder.Property(p => p.Id)
             .ValueGeneratedOnAdd();
         builder.Property(p => p.Name)
-            .IsRequired(true);
+            .IsRequired();
         builder.Property(p => p.Document)
-            .IsRequired(true);
+            .IsRequired();
         builder.HasIndex(p => p.Document)
             .IsUnique();
         builder.Property(p => p.DocumentType)
-            .IsRequired(true);
+            .IsRequired();
     }
 }

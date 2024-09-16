@@ -1,7 +1,9 @@
+using Projects;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
-builder.AddProject<Projects.Outbox_Api>("outbox-api");
+builder.AddProject<Outbox_Api>("outbox-api");
 
-builder.AddProject<Projects.Inbox_Api>("inbox-api");
+builder.AddProject<Inbox_Api>("inbox-api");
 
 await builder.Build().RunAsync();

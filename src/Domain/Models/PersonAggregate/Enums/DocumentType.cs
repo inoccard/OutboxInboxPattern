@@ -1,4 +1,4 @@
-﻿namespace Outbox.Api.Domain.Models.PersonAggregate.Enums;
+﻿namespace Domain.Models.PersonAggregate.Enums;
 
 public enum DocumentType
 {

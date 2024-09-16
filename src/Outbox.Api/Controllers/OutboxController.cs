@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Outbox.Api.Domain.Models.OutboxAggregrate.Services;
+﻿using Domain.Models.OutboxAggregrate.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Outbox.Api.Controllers;
 
 [ApiController]
 [Route("[controller]/outbox")]
-public class OutboxController(OutboxEventService outboxEventService) : ControllerBase
+public class OutboxController(IOutboxEventService outboxEventService) : ControllerBase
 {
     [HttpGet]
     public IActionResult Get()
