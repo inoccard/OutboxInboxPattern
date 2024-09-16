@@ -1,4 +1,4 @@
-﻿using Domain.Models.OutboxAggregrate.Services;
+﻿using Domain.Models.OutboxAggregate.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Outbox.Api.Controllers;

@@ -1,9 +1,9 @@
 ﻿using Domain.Contracts;
-using Domain.Models.OutboxAggregate.Notifications;
+using Domain.Models.InboxAggregate.Notifications;
 
-namespace Outbox.Api.Services;
+namespace Inbox.Api.Services;
 
-public class OutboxPublisherService(IServiceProvider serviceProvider) : BackgroundService
+public class InboxPublisherService(IServiceProvider serviceProvider) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -11,8 +11,8 @@ public class OutboxPublisherService(IServiceProvider serviceProvider) : Backgrou
         {
             using (var scope = serviceProvider.CreateAsyncScope())
             {
-                var mediator = scope.ServiceProvider.GetRequiredService<IMediatorHandlerOutbox>();
-                await mediator.Publish(new OutboxJobNotification());
+                var mediator = scope.ServiceProvider.GetRequiredService<IMediatorHandlerInbox>();
+                await mediator.Publish(new InboxJobNotification());
             }
 
             await Task.Delay(20000, stoppingToken); // Intervalo entre tentativas de processamento

@@ -1,9 +1,10 @@
-using Domain.Models.OutboxAggregrate.Services;
+using Application.Outbox;
+using Domain.Contracts;
+using Domain.Models.OutboxAggregate.Services;
 using Domain.Models.PersonAggregate.Dtos;
 using Domain.Models.PersonAggregate.Entities;
-using Domain.Models.PersonAggregate.Notifications;
+using Domain.Models.PersonAggregate.Services;
 using Domain.Repository;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,61 +12,47 @@ namespace Outbox.Api.Controllers;
 
 [ApiController]
 [Route("[controller]/person")]
-public class PersonController : ControllerBase
+public class PersonController(
+    IRepository repository,
+    ILogger<PersonController> logger,
+    IOutboxEventService outboxEventService,
+    IPersonService personService,
+    IMediatorHandlerOutbox mediator) : ControllerBase
 {
-    private readonly ILogger<PersonController> _logger;
-    private readonly IMediator _mediator;
-    private readonly IOutboxEventService _outboxEventService;
-    private readonly IRepository _repository;
-
-    public PersonController(
-        IRepository repository,
-        ILogger<PersonController> logger,
-        IOutboxEventService outboxEventService,
-        IMediator mediator)
-    {
-        _logger = logger;
-        _outboxEventService = outboxEventService;
-        _mediator = mediator;
-        _repository = repository;
-    }
-
     [HttpPost("create")]
     public async Task<IActionResult> SaveAsync(PersonDto personDto)
     {
         try
         {
             var person = new Person(personDto.Name, personDto.Document, personDto.Doctype);
-            await _repository.AddAsync(person);
-            var saved = await _repository.CommitAsync();
 
-            // Salva o evento logo após salvar os dados
+            var saved = await personService.SaveAsync(person);
+
+            if (!saved) return BadRequest("Não foi possível salvar");
+
             var @event = new PersonCreatedNotification(person.Id, person.Name, person.Document, person.DocumentType);
-            await _outboxEventService.SaveEvent(@event);
+            await outboxEventService.SaveEvent(@event);
 
-            await SendPersonCreated(person);
-
-            if (!saved) return BadRequest();
+            await SendPersonCreated(@event);
 
             return Ok($"Pessoa cadastrada com sucesso. Id: {person.Id}");
         }
         catch (Exception ex)
         {
+            logger.LogError(ex.Message);
             return BadRequest($"{ex.Message} {ex.InnerException.Message}");
         }
     }
 
-    private async Task SendPersonCreated(Person person)
+    private async Task SendPersonCreated(PersonCreatedNotification personEvent)
     {
         try
         {
-            var personEvent =
-                new PersonCreatedNotification(person.Id, person.Name, person.Document, person.DocumentType);
-            await _mediator.Publish(personEvent);
+            await mediator.Publish(personEvent);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex.Message);
+            logger.LogError(ex.Message);
         }
     }
 
@@ -74,15 +61,15 @@ public class PersonController : ControllerBase
     {
         try
         {
-            var personOld = await _repository.Query<Person>(p => p.Id == id).FirstOrDefaultAsync();
+            var personOld = await repository.Query<Person>(p => p.Id == id).FirstOrDefaultAsync();
 
             bool saved;
             if (personOld is null) return NotFound();
 
             personOld.Update(personDto.Name, personDto.Document, personDto.Doctype);
 
-            _repository.Update(personOld);
-            saved = await _repository.CommitAsync();
+            repository.Update(personOld);
+            saved = await repository.CommitAsync();
 
             if (!saved) return BadRequest();
 
@@ -99,7 +86,7 @@ public class PersonController : ControllerBase
     {
         try
         {
-            var person = await _repository.QueryAsNoTracking<Person>()
+            var person = await repository.QueryAsNoTracking<Person>()
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (person is null) return NotFound();

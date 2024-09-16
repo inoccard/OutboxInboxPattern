@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Domain.Models.PersonAggregate.Enums;
+﻿using Domain.Models.PersonAggregate.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Models.PersonAggregate.Entities;
 
@@ -7,6 +7,14 @@ public class Person
 {
     public Person(string name, string document, DocumentType documentType)
     {
+        Name = name;
+        Document = document;
+        DocumentType = documentType;
+    }
+
+    public Person(int id, string name, string document, DocumentType documentType)
+    {
+        Id = id;
         Name = name;
         Document = document;
         DocumentType = documentType;

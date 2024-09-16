@@ -9,28 +9,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.8"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8"/>
-        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.8"/>
-        <PackageReference Include="MediatR" Version="12.4.1"/>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+        <PackageReference Include="MediatR" Version="12.4.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Domain\Domain.csproj"/>
-        <ProjectReference Include="..\MessageQueue\MessageQueue.csproj"/>
-        <ProjectReference Include="..\OutboxInboxPattern.ServiceDefaults\OutboxInboxPattern.ServiceDefaults.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Data\Helpers\"/>
+        <ProjectReference Include="..\Application\Application.csproj" />
+        <ProjectReference Include="..\Data\Data.csproj" />
+        <ProjectReference Include="..\Domain\Domain.csproj" />
+        <ProjectReference Include="..\MessageQueue\MessageQueue.csproj" />
+        <ProjectReference Include="..\OutboxInboxPattern.ServiceDefaults\OutboxInboxPattern.ServiceDefaults.csproj" />
     </ItemGroup>
 
 </Project>

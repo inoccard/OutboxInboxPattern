@@ -1,14 +1,28 @@
-﻿using Domain.Contracts;
+﻿using Application.Inbox;
+using Domain.Contracts;
+using Domain.Models.PersonAggregate.Enums;
 using MassTransit;
-using MassTransit.Mediator;
 using MessageQueue.Messages;
 
 namespace MessageQueue.Inbox.Consumers;
 
-public class PersonCreatedConsumer(IMediator mediator) : IConsumer<IPersonCreated>
+public class PersonCreatedConsumer(IMediatorHandlerInbox mediator) : IConsumer<IPersonCreated>
 {
     public async Task Consume(ConsumeContext<IPersonCreated> context)
     {
-        await Task.FromResult(context.Message);
+        try
+        {
+            var message = context.Message;
+            await mediator.Publish(new CreatePersonNotification(
+                message.Id,
+                message.Name,
+                message.Document,
+                (DocumentType)message.DocumentType));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            throw;
+        }
     }
 }

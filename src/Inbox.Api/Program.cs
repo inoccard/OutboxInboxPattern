@@ -1,29 +1,31 @@
+using Application.Configs;
+using Application.Inbox;
+using Data.Configs.Databases;
+using Inbox.Api.Configs;
+using Inbox.Api.Services;
+using MediatR;
+using MessageQueue;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDatabaseConfig(builder.Configuration, "Inbox");
+builder.Services.AddServices(builder.Configuration)
+    .ConfigureApplicationInbox()
+    .ConfigureMessageQueueInbox(builder.Configuration);
+
+builder.Services.AddTransient<INotificationHandler<CreatePersonNotification>, AddPersonHandler>();
+
+builder.Services.AddHostedService<InboxPublisherService>();
+
 var app = builder.Build();
 
-app.MapDefaultEndpoints();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
 app.MapControllers();
+app.UseApp();
 
-app.Run();
+await app.RunAsync();

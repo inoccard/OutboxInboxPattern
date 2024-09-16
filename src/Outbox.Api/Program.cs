@@ -1,22 +1,29 @@
+using Application.Configs;
+using Application.Outbox;
+using Data.Configs.Databases;
+using Domain.Models.OutboxAggregate.Notifications;
+using MediatR;
 using MessageQueue;
+using MessageQueue.Outbox.Publishers;
 using Outbox.Api.Configs;
-using Outbox.Api.Configs.Databases;
 using Outbox.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDatabaseConfig(builder.Configuration);
-builder.Services.AddServices(builder.Configuration);
-builder.Services.ConfigureMessageQueue(builder.Configuration);
+builder.Services.AddDatabaseConfig(builder.Configuration, "Outbox");
+builder.Services.AddServices(builder.Configuration)
+    .ConfigureApplicationOutbox()
+    .ConfigureMessageQueueOutbox(builder.Configuration);
+
+builder.Services.AddTransient<INotificationHandler<PersonCreatedNotification>, PersonHandler>();
+builder.Services.AddTransient<INotificationHandler<OutboxJobNotification>, OutboxJobHandler>();
+
 builder.Services.AddHostedService<OutboxPublisherService>();
 
 var app = builder.Build();
@@ -25,3 +32,4 @@ app.MapControllers();
 app.UseApp();
 
 await app.RunAsync();
+
