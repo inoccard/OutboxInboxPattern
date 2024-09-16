@@ -13,8 +13,15 @@ public class Person
     }
 
     [Key]
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     public string Name { get; private set; }
     public string Document { get; private set; }
     public DocumentType DocumentType { get; private set; }
+
+    public void Update(string name, string document, DocumentType documentType)
+    {
+        Name = name;
+        Document = document;
+        DocumentType = documentType;
+    }
 }

@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inbox.Api", "src\Inbox.Api\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outbox.Api", "src\Outbox.Api\Outbox.Api.csproj", "{93D80F42-64A4-4579-9764-9C9E8C4AD873}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageQueue", "src\MessageQueue\MessageQueue.csproj", "{181F49E2-2609-4E02-9718-08309EA0E745}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "src\Core\Core.csproj", "{FFF24BD7-B047-4024-A1B9-0F79FB453655}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,14 @@ Global
 		{93D80F42-64A4-4579-9764-9C9E8C4AD873}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93D80F42-64A4-4579-9764-9C9E8C4AD873}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93D80F42-64A4-4579-9764-9C9E8C4AD873}.Release|Any CPU.Build.0 = Release|Any CPU
+		{181F49E2-2609-4E02-9718-08309EA0E745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{181F49E2-2609-4E02-9718-08309EA0E745}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{181F49E2-2609-4E02-9718-08309EA0E745}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{181F49E2-2609-4E02-9718-08309EA0E745}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFF24BD7-B047-4024-A1B9-0F79FB453655}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFF24BD7-B047-4024-A1B9-0F79FB453655}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFF24BD7-B047-4024-A1B9-0F79FB453655}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFF24BD7-B047-4024-A1B9-0F79FB453655}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,13 +10,6 @@ public static class DatabaseConfig
     {
         var connection = configuration.GetConnectionString("Outbox");
         services.AddDbContext<DataContext>(
-            builder => builder.UseSqlServer(connection));
-    }
-    
-    public static void ApplyMigrations(this WebApplication app)
-    {
-        var services = app.Services.CreateScope().ServiceProvider;
-        var dataContext = services.GetRequiredService<DataContext>();
-        dataContext.Database.Migrate();
+            builder => builder.UseInMemoryDatabase(connection));
     }
 }

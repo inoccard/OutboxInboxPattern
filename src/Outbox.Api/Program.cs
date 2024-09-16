@@ -1,3 +1,5 @@
+using MessageQueue;
+using Outbox.Api.Configs;
 using Outbox.Api.Configs.Databases;
 using Outbox.Api.Data;
 using Outbox.Api.Domain.Repository;
@@ -14,11 +16,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDatabaseConfig(builder.Configuration);
-builder.Services.AddScoped<IRepository, DataContext>();
+builder.Services.AddServices(builder.Configuration);
+builder.Services.ConfigureMessageQueue(builder.Configuration);
 
 var app = builder.Build();
-
-app.ApplyMigrations();
 
 app.MapDefaultEndpoints();
 
