@@ -1,5 +1,5 @@
-﻿using Domain.Contracts;
-using Domain.Models.InboxAggregate.Notifications;
+﻿using Application.Inbox;
+using Domain.Contracts;
 
 namespace Inbox.Api.Services;
 
@@ -15,7 +15,7 @@ public class InboxPublisherService(IServiceProvider serviceProvider) : Backgroun
                 await mediator.Publish(new InboxJobNotification());
             }
 
-            await Task.Delay(20000, stoppingToken); // Intervalo entre tentativas de processamento
+            await Task.Delay(20000, stoppingToken);
         }
     }
 }

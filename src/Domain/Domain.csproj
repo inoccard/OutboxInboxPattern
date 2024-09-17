@@ -8,12 +8,6 @@
 
     <ItemGroup>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="MediatR" Version="12.2.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Communication\" />
-      <Folder Include="Models\PersonAggregate\Notifications\" />
     </ItemGroup>
 
 </Project>

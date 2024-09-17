@@ -4,7 +4,7 @@ using Domain.Models.PersonAggregate.Enums;
 using MassTransit;
 using MessageQueue.Messages;
 
-namespace MessageQueue.Inbox.Consumers;
+namespace MessageQueue.Consumers.Inbox;
 
 public class PersonCreatedConsumer(IMediatorHandlerInbox mediator) : IConsumer<IPersonCreated>
 {

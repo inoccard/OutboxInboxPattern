@@ -1,6 +1,5 @@
 ﻿using Data;
 using Domain.Models.InboxAggregate.Services;
-using Domain.Models.OutboxAggregate.Services;
 using Domain.Models.PersonAggregate.Services;
 using Domain.Repository;
 
@@ -21,10 +20,9 @@ public static class RegisterAppServices
                 });
         });
 
-        services.AddScoped<IRepository, DataContext>()
-            .AddScoped<IInboxEventService, InboxEventService>()
-            .AddScoped<IOutboxEventService, OutboxEventService>()
-            .AddScoped<IPersonService, PersonService>();
+        services.AddScoped<IRepository, DataContext>();
+        services.AddScoped<IInboxEventService, InboxEventService>();
+        services.AddScoped<IPersonService, PersonService>();
 
         return services;
     }

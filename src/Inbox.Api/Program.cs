@@ -1,9 +1,7 @@
 using Application.Configs;
-using Application.Inbox;
-using Data.Configs.Databases;
+using Data;
 using Inbox.Api.Configs;
 using Inbox.Api.Services;
-using MediatR;
 using MessageQueue;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +17,8 @@ builder.Services.AddServices(builder.Configuration)
     .ConfigureApplicationInbox()
     .ConfigureMessageQueueInbox(builder.Configuration);
 
-builder.Services.AddTransient<INotificationHandler<CreatePersonNotification>, AddPersonHandler>();
+//builder.Services.AddTransient<INotificationHandler<CreatePersonNotification>, AddPersonHandler>();
+//builder.Services.AddTransient<INotificationHandler<InboxJobNotification>, InboxJobHandler>();
 
 builder.Services.AddHostedService<InboxPublisherService>();
 

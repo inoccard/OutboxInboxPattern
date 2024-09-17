@@ -1,5 +1,5 @@
-﻿using Domain.Contracts;
-using Domain.Models.OutboxAggregate.Notifications;
+﻿using Application.Outbox;
+using Domain.Contracts;
 
 namespace Outbox.Api.Services;
 

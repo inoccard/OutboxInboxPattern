@@ -1,10 +1,6 @@
 using Application.Configs;
-using Application.Outbox;
-using Data.Configs.Databases;
-using Domain.Models.OutboxAggregate.Notifications;
-using MediatR;
+using Data;
 using MessageQueue;
-using MessageQueue.Outbox.Publishers;
 using Outbox.Api.Configs;
 using Outbox.Api.Services;
 
@@ -21,15 +17,15 @@ builder.Services.AddServices(builder.Configuration)
     .ConfigureApplicationOutbox()
     .ConfigureMessageQueueOutbox(builder.Configuration);
 
-builder.Services.AddTransient<INotificationHandler<PersonCreatedNotification>, PersonHandler>();
-builder.Services.AddTransient<INotificationHandler<OutboxJobNotification>, OutboxJobHandler>();
+//builder.Services.AddTransient<INotificationHandler<PersonCreatedNotification>, PersonHandler>();
+//builder.Services.AddTransient<INotificationHandler<OutboxJobNotification>, OutboxJobHandler>();
 
 builder.Services.AddHostedService<OutboxPublisherService>();
 
 var app = builder.Build();
 
 app.MapControllers();
-app.UseApp();
+app.UseApp()
+    .ApplyMigrations();
 
 await app.RunAsync();
-

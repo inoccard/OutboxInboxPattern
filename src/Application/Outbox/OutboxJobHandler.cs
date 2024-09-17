@@ -1,4 +1,4 @@
-﻿using Domain.Models.OutboxAggregate.Notifications;
+﻿using Domain.Contracts;
 using Domain.Models.OutboxAggregate.Services;
 using Domain.Repository;
 using MediatR;
@@ -10,7 +10,7 @@ namespace Application.Outbox;
 public class OutboxJobHandler(
     IOutboxEventService outboxEventService,
     IRepository repository,
-    IMediator mediator,
+    IMediatorHandlerOutbox mediator,
     ILogger<OutboxJobHandler> logger) : INotificationHandler<OutboxJobNotification>
 {
     public async Task Handle(OutboxJobNotification notification, CancellationToken cancellationToken)
@@ -23,7 +23,7 @@ public class OutboxJobHandler(
                 if (!SetEventTypeName().TryGetValue(pendingEvent.Type, out var eventType)) continue;
 
                 var @event = JsonConvert.DeserializeObject(pendingEvent.Payload, eventType);
-                await mediator.Publish(@event, cancellationToken);
+                await mediator.Publish(@event);
 
                 // Marcar como publicado após sucesso
                 pendingEvent.UpdateDate();

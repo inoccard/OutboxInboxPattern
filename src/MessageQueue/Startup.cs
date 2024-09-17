@@ -1,5 +1,5 @@
 ﻿using MassTransit;
-using MessageQueue.Inbox.Consumers;
+using MessageQueue.Consumers.Inbox;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;

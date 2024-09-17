@@ -18,6 +18,12 @@ public class InboxEventService(IRepository repository) : IInboxEventService
         await repository.CommitAsync();
     }
 
+    public async Task SaveEvent(InboxEvent @event)
+    {
+        await repository.AddAsync(@event);
+        await repository.CommitAsync();
+    }
+
     public InboxEvent[] GetPendingEvents()
     {
         var events = repository.Query<InboxEvent>()

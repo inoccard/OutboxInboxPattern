@@ -4,7 +4,7 @@ using MediatR;
 using MessageQueue.Messages;
 using Microsoft.Extensions.Logging;
 
-namespace MessageQueue.Outbox.Publishers;
+namespace MessageQueue.Publishers.Outbox;
 
 public class PersonHandler(IBusControl busControl, ILogger<PersonHandler> logger) :
     INotificationHandler<PersonCreatedNotification>
